@@ -1,0 +1,35 @@
+name: Run Slither Analysis
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  run-slither:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      
+      - name: Run Slither
+        continue-on-error: true
+        uses: crytic/slither-action@v0.3.2
+        id: slither
+        with:
+          fail-on: none
+          slither-config: ./slither-config.json
+          slither-args: --exclude-dependencies --exclude-informational --checklist --markdown-root ${{ github.server_url }}/${{ github.repository }}/blob/${{ github.sha }}/
+
+      - name: Create/update checklist as PR comment
+        uses: actions/github-script@v6
+        env:
+          REPORT: ${{ steps.slither.outputs.stdout }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const script = require('.github/scripts/comment')
+            const header = '# Slither report'
+            const body = process.env.REPORT
+            await script({ github, context, header, body })

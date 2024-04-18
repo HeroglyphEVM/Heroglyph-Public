@@ -11,7 +11,7 @@ is_simulation=false
 # This is overkill since the forge script already checks for builds. 
 # However, I once encountered an issue where I deployed an old version of the build. 
 # Therefore, it is better to play it safe.
-forge build
+forge build --force
 
 echo "is Simulation?"
     select use_simulation in "yes" "no"; do

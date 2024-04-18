@@ -1,0 +1,29 @@
+name: CI
+on:
+  push:
+  pull_request:
+    types: [opened, reopened]
+
+env:
+  RPC_MAINNET: https://eth.llamarpc.com
+  RPC_ARBITRUM: https://arbitrum.llamarpc.com
+
+jobs:
+  check:
+    name: Foundry project
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: nightly
+
+      - name: Run unit tests
+        run: make tests
+      
+      - name: Run e2e tests
+        run: make tests-e2e

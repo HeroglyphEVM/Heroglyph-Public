@@ -4,25 +4,11 @@ solc = '0.8.25'
 src = 'src'
 test = 'test'
 out = 'out'
+libs = ['lib']
 via_ir = true
 verbosity = 3
-evm_version = "paris"
-auto_detect_remappings = false
-libs = [
-    # ./lib are refered in toolbox-foundry/lib
-    'node_modules/@layerzerolabs/toolbox-foundry/lib',
-    'node_modules',
-]
-
 remappings = [
-'src/=src/',
-'ds-test/=node_modules/@layerzerolabs/toolbox-foundry/lib/ds-test/',
-'forge-std/=node_modules/@layerzerolabs/toolbox-foundry/lib/forge-std/src/',
-'@layerzerolabs/=node_modules/@layerzerolabs/',
-'@openzeppelin/=node_modules/@openzeppelin/',
-'heroglyph-library/=node_modules/@layerzerolabs/toolbox-foundry/lib/heroglyph-library/',
-'solidity-bytes-utils/=node_modules/solidity-bytes-utils/',
-'solmate/=node_modules/@layerzerolabs/toolbox-foundry/lib/solmate/',
+    'src/=src/'
 ]
 
 [profile.e2e]
@@ -31,39 +17,28 @@ match_path = "test/e2e/*"
 [profile.unit]
 block_number = 17373196
 block_timestamp = 1685467379
-no_match_path = "test/e2e/*"
-
-[fuzz]
-runs = 1024
-max_test_rejects = 65536
-seed = '0x3e8'
-dictionary_weight = 40
-include_storage = true
-include_push_bytes = true
+match_path = "test/unit/*"
 
 [rpc_endpoints]
 localhost = "http://127.0.0.1:8545"
 mainnet = "${RPC_MAINNET}"
 sepolia = "${RPC_SEPOLIA}"
-tenderly = "${RPC_TENDERLY}"
-arbitrumOne = "${RPC_ARBITRUM}"
-arbitrumOneTestnet = "${RPC_ARBITRUM_SEPOLIA}"
+arbitrum = "${RPC_ARBITRUM}"
+arbitrumTestnet = "${RPC_ARBITRUM_SEPOLIA}"
 
 [etherscan]
 mainnet = { key = "${ETHERSCAN_KEY}", chain = 1, url = "https://api.etherscan.io/api/"}
-sepolia = { key = "${ETHERSCAN_KEY}", chain = 11155111, url = "https://api-sepolia.etherscan.io/api/" }
-tenderly = { key = "${TENDERLY_KEY}", chain = 11155111, url = "${RPC_TENDERLY}/verify/etherscan" }
-arbitrumOne = { key = "${ARBISCAN_KEY}", chain = 42161, url = "https://api.arbiscan.io/api/"}
-arbitrumGoerli = { key = "${ARBISCAN_KEY}", chain = 421613, url = "https://api-sepolia.arbiscan.io/api/"}
+sepolia = { key = "${ETHERSCAN_KEY}", chain = 11155111, url = "https://api-sepolia.etherscan.io/api"}
+arbitrum = { key = "${ARBISCAN_KEY}", chain = 42161, url = "https://api.arbiscan.io/api/"}
+arbitrumSepolia = { key = "${ARBISCAN_KEY}", chain = 421614, url = "https://api-sepolia.arbiscan.io/api/"}
 
 [fmt]
-line_length = 120
-tab_width = 4
+line_length = 90
+tab_width = 2
 bracket_spacing = true
 int_types = "long"
 func_attrs_with_params_multiline = true
 quote_style = "double"
 number_underscore = "thousands"
-wrap_comments = true
 
-# See more config options https://github.com/foundry-rs/foundry/tree/master/config
+# See more config options https://github.com/foundry-rs/foundry/tree/master/crates/config
