@@ -1,0 +1,158 @@
+[
+  {
+    "contractAddress": "0x518AD4c19FeA481f743B8dE33Ff1ec1796f94023",
+    "contractName": "MOLANDAK_KEY"
+  },
+  {
+    "contractAddress": "0xF5E0DFEf32e0e6dB9882af1750c08e9497459100",
+    "contractName": "lueygi_KEY"
+  },
+  {
+    "contractAddress": "0xE077E5f63C34B611a913B3FCBFADAA3b25991733",
+    "contractName": "PORIGON_KEY"
+  },
+  {
+    "contractAddress": "0x84Bc8D2a2c6281F15afC18C896766D64EF93bf02",
+    "contractName": "OVERPOWERED_KEY"
+  },
+  {
+    "contractAddress": "0x6F2Ffdd387f01A0573Ca40628EaCF9dBe5240731",
+    "contractName": "ARBINAUTS_KEY"
+  },
+  {
+    "contractAddress": "0xbcEDcFf31C68B1fb362FaEBe36917B35643DE471",
+    "contractName": "69_KEY"
+  },
+  {
+    "contractAddress": "0x01d7Ef2ab555C800f0818edfc6A9744B79771DA1",
+    "contractName": "ONEPUNCH_KEY"
+  },
+  {
+    "contractAddress": "0xb8F977f9cb94ca72d71eC6466785605319c83F0C",
+    "contractName": "SANICSUPERSPEED_KEY"
+  },
+  {
+    "contractAddress": "0x32E707B2Fa13851Ae5A8D5d610B236aB3ad5687f",
+    "contractName": "KABOSU_KEY"
+  },
+  {
+    "contractAddress": "0x30dA1A8b1673Db2eEE02c72682097290b11325Fd",
+    "contractName": "SCRIBES_KEY"
+  },
+  {
+    "contractAddress": "0x1910bFE60B28b751b19Ba1C266674eB61b7e6D2B",
+    "contractName": "HOLYTRINITY_KEY"
+  },
+  {
+    "contractAddress": "0xbc75c6a9021a97c3343DC5c52eA2E13E5F1f852c",
+    "contractName": "GNOBBY_KEY"
+  },
+  {
+    "contractAddress": "0x7d35995Ec68BcA71849068e0FC91EB75641c9aA8",
+    "contractName": "GARFELDO_KEY"
+  },
+  {
+    "contractAddress": "0xf4E131ba5E4678bd00e8DBd508f5820fE453A51D",
+    "contractName": "BigBang_KEY"
+  },
+  {
+    "contractAddress": "0xC38F5a1aA46853Be3BfbFcF00562E01856867ba7",
+    "contractName": "$BERA_KEY"
+  },
+  {
+    "contractAddress": "0xD37e64dD683BeDD72259e861D53c29bE51Ee8E04",
+    "contractName": "Milady"
+  },
+  {
+    "contractAddress": "0x6262f6a2291D61139f319ac81fACbDA506A9e049",
+    "contractName": "GasPool"
+  },
+  {
+    "contractAddress": "0x7497B1cCd20fbf881564AB8e1cA13090f94BFD10",
+    "contractName": "NameFilterV1"
+  },
+  {
+    "contractAddress": "0x422116B10872523Efaa9ac16D4bb9868293e87E3",
+    "contractName": "ValidatorIdentity"
+  },
+  {
+    "contractAddress": "0xC843C7AE45b54d1eB1Cd7EA91Ce3A416F0247150",
+    "contractName": "Ticker"
+  },
+  {
+    "contractAddress": "0x384f025f8B1993584857A305C3b2fE181087ae78",
+    "contractName": "HeroglyphRelay"
+  },
+  {
+    "contractAddress": "0x3554a4ceEf26C7BCAbC75BdE03648B7EC6ce59E3",
+    "contractName": "HeroglyphAttestation"
+  },
+  {
+    "contractAddress": "0x0FB145188127DeeCB37ea65a9061604805A1E1B8",
+    "contractName": "RedeemHub"
+  },
+  {
+    "contractAddress": "0x3A91c63ee29b23fB74DfB06B9Cc796a9487a87A7",
+    "contractName": "Token_MOLANDAK"
+  },
+  {
+    "contractAddress": "0x4Ff5f900ecA8F848bEDf09Fbff7d1CAa2C11a857",
+    "contractName": "Token_lueygi"
+  },
+  {
+    "contractAddress": "0x9Ff606f0BFd752Bf8f68092eD70D35CCc1643492",
+    "contractName": "Token_PORIGON"
+  },
+  {
+    "contractAddress": "0x6630Ae120DBDA654c18f04Eb82ee89C54493378d",
+    "contractName": "Token_OVERPOWERED"
+  },
+  {
+    "contractAddress": "0x291b4A2E55B0D444F446e326A1a8e974B15E2165",
+    "contractName": "Token_ARBINAUTS"
+  },
+  {
+    "contractAddress": "0x5F96E55571D4e3c29D3025Ee79CC8eF0C1A8dab4",
+    "contractName": "Token_69"
+  },
+  {
+    "contractAddress": "0xE862106c941B59D3dF42DF1832bdbec3A74EB6A5",
+    "contractName": "Token_ONEPUNCH"
+  },
+  {
+    "contractAddress": "0x3B87930029138c1b1DF444905BeDA537052C852C",
+    "contractName": "Token_SANICSUPERSPEED"
+  },
+  {
+    "contractAddress": "0x7ab8EA5eF610f979e1C59fBd9dA9284672e5a136",
+    "contractName": "Token_KABOSU"
+  },
+  {
+    "contractAddress": "0x33E02485076B885Caf5333A12975FD31131f523D",
+    "contractName": "Token_SCRIBES"
+  },
+  {
+    "contractAddress": "0x350F1F7d83c98bcCd19caB739Fa42F121a8d8d9C",
+    "contractName": "Token_frxBULLAS"
+  },
+  {
+    "contractAddress": "0xd78544e8270AcE4Ba28fB69Fc1c12931d6f5d69e",
+    "contractName": "Token_GNOBBY"
+  },
+  {
+    "contractAddress": "0x685BF306694d373B8F112c7bA579f1ccdE73B3B4",
+    "contractName": "Token_GARFELDO"
+  },
+  {
+    "contractAddress": "0xeDd6b93d0B40C3c5E2985454f52ca44C0bce6F39",
+    "contractName": "Token_OogaBooga"
+  },
+  {
+    "contractAddress": "0x1e20aCe5b183A33534c33d7E74DA3c5db2248E93",
+    "contractName": "MultiClaimingAttestation"
+  },
+  {
+    "contractAddress": "0xfb8bDCF08640578b697c972A36E8a6fD3ba38dfE",
+    "contractName": "HeroglyphAttestationChecker"
+  }
+]

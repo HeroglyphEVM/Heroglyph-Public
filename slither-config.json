@@ -1,0 +1,24 @@
+{
+	"hardhat_cache_directory": "hardhat/cache",
+	"hardhat_artifacts_directory": "hardhat/artifacts",
+	"detectors_to_exclude": "naming-convention,similar-names",
+	"exclude_informational": false,
+	"exclude_low": false,
+	"exclude_medium": false,
+	"exclude_high": false,
+	"filter_paths": "node_modules",
+	"solc_remaps": [
+		"src/=src/",
+		"ds-test/=node_modules/@layerzerolabs/toolbox-foundry/lib/ds-test/",
+		"forge-std/=node_modules/@layerzerolabs/toolbox-foundry/lib/forge-std/src/",
+		"@layerzerolabs/=node_modules/@layerzerolabs/",
+		"@openzeppelin/=node_modules/@openzeppelin/",
+		"@axelar-network/=node_modules/@axelar-network/",
+		"@chainlink/=node_modules/@chainlink/",
+		"@eth-optimism/=node_modules/@eth-optimism/",
+		"automate/=node_modules/@layerzerolabs/toolbox-foundry/lib/automate/",
+		"hardhat-deploy/=node_modules/hardhat-deploy/",
+		"hardhat/=node_modules/hardhat/",
+		"solidity-bytes-utils/=node_modules/solidity-bytes-utils/"
+	]
+}

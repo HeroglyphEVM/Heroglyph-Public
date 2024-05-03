@@ -1,33 +1,70 @@
 {
-	"name": "template-project",
-	"version": "1.0.0",
-	"description": "This is a template for a Foundry project.",
-	"license": "AGPL-3.0-only",
-	"directories": {
-		"lib": "lib",
-		"test": "src/test"
-	},
-	"devDependencies": {
-		"@nomiclabs/hardhat-ethers": "^2.0.6",
-		"@nomiclabs/hardhat-etherscan": "^3.1.0",
-		"@nomiclabs/hardhat-waffle": "^2.0.3",
-		"@openzeppelin/hardhat-upgrades": "^1.19.0",
-		"@typechain/ethers-v5": "^9.0.0",
-		"@typechain/hardhat": "^4.0.0",
-		"@types/readline-sync": "^1.4.4",
-		"chai": "^4.3.6",
-		"ethereum-waffle": "^3.4.4",
-		"ethers": "^5.6.8",
-		"hardhat": "^2.9.5",
-		"hardhat-preprocessor": "^0.1.4",
-		"prettier": "^2.7.1",
-		"prettier-plugin-solidity": "^1.0.0-beta.19",
-		"readline-sync": "^1.4.10",
-		"ts-node": "^10.8.1",
-		"typechain": "^7.0.1",
-		"typescript": "^4.7.3"
-	},
-	"dependencies": {
-		"dotenv": "^16.0.3"
-	}
+  "name": "@layerzerolabs/oapp-example",
+  "version": "0.1.8",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "clean": "rm -rf artifacts cache out",
+    "compile": "$npm_execpath run compile:forge && $npm_execpath run compile:hardhat",
+    "compile:forge": "forge build",
+    "compile:hardhat": "hardhat compile",
+    "lint": "$npm_execpath run lint:js && $npm_execpath run lint:sol",
+    "lint:fix": "eslint --fix '**/*.{js,ts,json}' && prettier --write . && solhint 'contracts/**/*.sol' --fix --noPrompt",
+    "lint:js": "eslint '**/*.{js,ts,json}' && prettier --check .",
+    "lint:sol": "solhint 'contracts/**/*.sol'",
+    "test": "$npm_execpath run test:forge && $npm_execpath run test:hardhat",
+    "test:forge": "forge test",
+    "test:hardhat": "hardhat test"
+  },
+  "resolutions": {
+    "ethers": "^5.7.2",
+    "hardhat-deploy": "^0.12.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.9",
+    "@layerzerolabs/eslint-config-next": "^2.1.15",
+    "@layerzerolabs/lz-definitions": "~2.1.15",
+    "@layerzerolabs/lz-evm-messagelib-v2": "~2.1.15",
+    "@layerzerolabs/lz-evm-oapp-v2": "~2.1.15",
+    "@layerzerolabs/lz-evm-protocol-v2": "~2.1.15",
+    "@layerzerolabs/lz-evm-v1-0.7": "~2.1.15",
+    "@layerzerolabs/lz-v2-utilities": "~2.1.15",
+    "@layerzerolabs/prettier-config-next": "^2.1.15",
+    "@layerzerolabs/solhint-config": "^2.1.15",
+    "@layerzerolabs/test-devtools-evm-foundry": "~0.1.11",
+    "@layerzerolabs/toolbox-foundry": "~0.1.2",
+    "@layerzerolabs/toolbox-hardhat": "~0.1.12",
+    "@nomicfoundation/hardhat-ethers": "^3.0.5",
+    "@nomiclabs/hardhat-ethers": "^2.2.3",
+    "@openzeppelin/contracts": "^5.0.1",
+    "@openzeppelin/contracts-upgradeable": "^5.0.1",
+    "@rushstack/eslint-patch": "^1.7.0",
+    "@types/chai": "^4.3.11",
+    "@types/mocha": "^10.0.6",
+    "chai": "^4.4.1",
+    "dotenv": "^16.4.1",
+    "ethers": "^5.7.2",
+    "hardhat": "^2.19.5",
+    "hardhat-contract-sizer": "^2.10.0",
+    "hardhat-deploy": "^0.12.1",
+    "mocha": "^10.2.0",
+    "prettier": "^3.2.5",
+    "solhint": "^4.1.1",
+    "solidity-bytes-utils": "^0.8.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18.16.0"
+  },
+  "overrides": {
+    "ethers": "^5.7.2",
+    "hardhat-deploy": "^0.12.1"
+  },
+  "pnpm": {
+    "overrides": {
+      "ethers": "^5.7.2",
+      "hardhat-deploy": "^0.12.1"
+    }
+  }
 }

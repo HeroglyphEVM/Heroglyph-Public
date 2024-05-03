@@ -1,0 +1,86 @@
+[
+  {
+    "contractAddress": "0xd11629348fAf98ca1A3cE3761536CE73184C6F4F",
+    "contractName": "GasPool"
+  },
+  {
+    "contractAddress": "0xb9615B32903d8b47542ac65541DfA05f89c02Aca",
+    "contractName": "NameFilterV1"
+  },
+  {
+    "contractAddress": "0x1FEBC5445fd676c9d33353F1e8893B95a88C24ae",
+    "contractName": "TestnetTrigger"
+  },
+  {
+    "contractAddress": "0x1D3451218Ac6c57e0f8dC24def3e0CA4544454aB",
+    "contractName": "ValidatorIdentity"
+  },
+  {
+    "contractAddress": "0x9F42EE1e96c08fE638C2F07aA6D250c69479f22F",
+    "contractName": "Ticker"
+  },
+  {
+    "contractAddress": "0x98580a149e19f4158A7e2f01349888cf625B8D8C",
+    "contractName": "HeroglyphRelay"
+  },
+  {
+    "contractAddress": "0x1b5280D52086fb92b657E0B87Ff91bFf32F6d268",
+    "contractName": "HeroglyphAttestation"
+  },
+  {
+    "contractAddress": "0x3d98d18e71981acbdeB765552da4C06d26ec791f",
+    "contractName": "RedeemHub"
+  },
+  {
+    "contractAddress": "0x25C7eFE6F62340434b07f27726F0EE2D84F47f8b",
+    "contractName": "Token_MOLANDAK"
+  },
+  {
+    "contractAddress": "0xa9703697ddd3030A0551ae881a49685bcBc90EAA",
+    "contractName": "Token_lueygi"
+  },
+  {
+    "contractAddress": "0x913de29633210c0D0D12234c5a2186904c8DBE1E",
+    "contractName": "Token_PORIGON"
+  },
+  {
+    "contractAddress": "0x0b9C591644daB910e7cd2535736D58370173e398",
+    "contractName": "Token_OVERPOWERED"
+  },
+  {
+    "contractAddress": "0xB1237B6F208F4D7452Eb7B64D9CeE55a060c9f26",
+    "contractName": "Token_ARBINAUTS"
+  },
+  {
+    "contractAddress": "0xccB722848a8cDCA929Da82aD3796d2B4AE842EC5",
+    "contractName": "Token_69"
+  },
+  {
+    "contractAddress": "0xAD0d375632404C54276a4DF725336cD61fed81c8",
+    "contractName": "Token_ONEPUNCH"
+  },
+  {
+    "contractAddress": "0x26283a401cb4B9661ce30b5A6B2d59b1613De3D3",
+    "contractName": "Token_SANICSUPERSPEED"
+  },
+  {
+    "contractAddress": "0x216C5789F18020D66DAdcB7C25859897799d1D0b",
+    "contractName": "Token_KABOSU"
+  },
+  {
+    "contractAddress": "0x3eF72de32B3eD384C730D99f7C0232102c7cc2c1",
+    "contractName": "Token_SCRIBES"
+  },
+  {
+    "contractAddress": "0xBfFa409F7Dcb3fE7407EE472066A9859fC99C854",
+    "contractName": "Token_HOLYTRINITY"
+  },
+  {
+    "contractAddress": "0x259d7a8b0C448eD2bc1377FEbd8281eB02034863",
+    "contractName": "Token_GNOBBY"
+  },
+  {
+    "contractAddress": "0xf0cC84c07fe56235a951435755470b7fE8116627",
+    "contractName": "Token_GARFELDO"
+  }
+]

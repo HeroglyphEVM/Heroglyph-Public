@@ -2,33 +2,30 @@
 # (-include to ignore error if it does not exist)
 -include .env
 
-FORK_MAINNET_RPC =  --fork-url https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161
-HARDHAT_COMPILE = npx hardhat compile
-FORGE_CLEAN = forge clean
-
 # How to use $(EXTRA) or $(NETWORK)
 # define it with your command. 
-# e.g: make test EXTRA='-vvv --match-contract MyContractTest'
-# e.g: make deploy-testnet NETWORK='arbitrumTestnet'
+# e.g: make tests EXTRA='-vvv --match-contract MyContractTest'
 
 # deps
 update:; forge update
 remappings:; forge remappings > remappings.txt
 
 # commands
-coverage :; forge coverage 
-coverage-output :; forge coverage --report lcov
-build  :; $(FORGE_CLEAN) && forge build 
-clean  :; $(FORGE_CLEAN)
+coverage :; forge coverage --ir-minimum
+coverage-output :; forge coverage --ir-minimum --report lcov
+build  :; forge build --force 
+clean  :; forge clean
 
-# test
-test   :; $(FORGE_CLEAN) && forge test $(EXTRA)
+# tests
+tests   :; export FOUNDRY_PROFILE=unit && forge test $(EXTRA)
+tests-e2e :; export FOUNDRY_PROFILE=e2e && forge test $(EXTRA)
 
 # Gas Snapshots
-snapshot :; $(FORGE_CLEAN) && forge snapshot $(EXTRA)
-snapshot-fork :; $(FORGE_CLEAN) && forge snapshot --snap .gas-snapshot-fork $(FORK_MAINNET_RPC) $(EXTRA)
+snapshot :; forge snapshot $(EXTRA)
+snapshot-fork :; forge snapshot --snap .gas-snapshot-fork $(RPC) $(EXTRA)
 
-# Hardhat Deployments
-deploy-local :; $(HARDHAT_COMPILE) && npx hardhat deploy --network local --env localhost
-deploy-testnet :; $(HARDHAT_COMPILE) && npx hardhat deploy --network $(NETWORK) --env testnet
-deploy-mainnet :; $(HARDHAT_COMPILE) && npx hardhat deploy --network $(NETWORK) --env mainnet
+#Analytic Tools
+slither :; slither --config-file ./slither-config.json src/
+
+deploy :; export IS_SIMULATION=false && forge script $(SCRIPT_NAME) --rpc-url $(RPC) --sig "run(string)" $(NETWORK) --broadcast --verify -vvvv $(EXTRA)
+simulate-deploy :; export IS_SIMULATION=true && forge script $(SCRIPT_NAME) --fork-url $(RPC) --sig "run(string)" $(NETWORK) -vvvv $(EXTRA)
