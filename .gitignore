@@ -1,0 +1,22 @@
+.idea
+.vscode
+lcov.info
+
+cache/
+out/
+
+.env
+.secrets.ts
+
+node_modules
+coverage
+coverage.json
+typechain
+typechain-types
+
+cache
+artifacts
+hardhat
+
+# Added by cargo
+/target
