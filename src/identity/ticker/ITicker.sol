@@ -2,16 +2,15 @@
 pragma solidity >= 0.8.0;
 
 interface ITicker {
-    error NotSigner();
-    error ExpiredSignature();
     error ProtectionStillActive();
-    error DepositTooLow();
     error TickerNotFound();
     error CantSelfBuy();
-    error PriceIsZero();
+    error PriceTooLow();
     error ProtectionMinimumOneMinute();
     error TickerIsImmune();
     error TickerUnderWater();
+    error FrontRunGuard();
+    error InitializationPeriodActive();
 
     event TickerUpdated(uint256 indexed id, string indexed name, address executionContract, uint256 price);
     event TickerHijacked(
@@ -23,15 +22,14 @@ interface ITicker {
     );
     event AddedDepositToTicker(uint256 indexed id, string indexed name, uint128 totalDeposit, uint128 added);
     event WithdrawnFromTicker(uint256 indexed id, string indexed name, uint128 totalDeposit, uint128 removed);
-    event TickerSurrended(uint256 indexed id, string indexed name, address indexed prevOwner);
-    event FailedToPayTax(uint256 indexed id, string indexed name, uint256 due, uint32 timestamp);
-    event TaxPaid(uint256 indexed id, string indexed name, uint256 paid, uint32 timestamp);
+    event TickerSurrendered(uint256 indexed id, string indexed name, address indexed prevOwner);
+    event TaxPaid(uint256 indexed id, string indexed name, uint256 paid, uint256 depositBalance, uint32 timestamp);
     event ProtectionTimeUpdated(uint32 time);
 
     /**
      * @notice TickerMetadata
      * @param name Name of the Ticker
-     * @param contractTarget Contract Tagerted by this ticker
+     * @param contractTarget Contract Targeted by this ticker
      * @param owningDate date in second of when the owner received the ownership of the ticker
      * @param lastTimeTaxPaid Last time the tax has been paid
      * @param immunityEnds *Only for Heroglyph* Adds immunity on creation to protect against the tax & the hijack
@@ -50,7 +48,7 @@ interface ITicker {
     /**
      * @notice TickerCreation
      * @param name Name of the Ticker
-     * @param contractTarget Contract Tagerted by this ticker
+     * @param contractTarget Contract Targeted by this ticker
      * @param gasLimit  Gas Limit of the execution, it's capped to the limit set by HeroglyphRelay::tickerGasLimit
      * @param setPrice The price the owner is ready to sell it's ticker, the tax is based on this price
      */
@@ -59,16 +57,6 @@ interface ITicker {
         address contractTarget;
         uint128 setPrice;
     }
-
-    /**
-     * @notice createWithSignature Create an Identity with signature to avoid getting front-runned
-     * @param _tickerCreation tuple(string name, uint128 setPrice, address contractTarget, uint128 gasLimit)
-     * @param _deadline Deadline of the signature
-     * @param _signature signed message abi.encodePacket(userAddress,name,deadline)
-     */
-    function createWithSignature(TickerCreation calldata _tickerCreation, uint256 _deadline, bytes memory _signature)
-        external
-        payable;
 
     /**
      * @notice create Create an Identity
@@ -90,10 +78,11 @@ interface ITicker {
      * @notice hijack Buy a Ticker and set the new price
      * @param _nftId Id of the Ticker NFT
      * @param _name  name of the Ticker
+     * @param _tickerPrice price of the ticker before hijack
      * @param _newPrice new price after hijackout
      * @dev if `_nftId` is zero, it will use `_name` instead
      */
-    function hijack(uint256 _nftId, string calldata _name, uint128 _newPrice) external payable;
+    function hijack(uint256 _nftId, string calldata _name, uint128 _tickerPrice, uint128 _newPrice) external payable;
 
     /**
      * @notice updatePrice Update the price of a Ticker
@@ -103,10 +92,10 @@ interface ITicker {
      * @dev Only the Ticker owner can update the price
      * @dev if `_nftId` is zero, it will use `_name` instead
      */
-    function updatePrice(uint256 _nftId, string calldata _name, uint128 _newPrice) external payable;
+    function updatePrice(uint256 _nftId, string calldata _name, uint128 _newPrice) external;
 
     /**
-     * @notice increaseDeposit Increase the depolsit on a ticker to avoid losing it from tax
+     * @notice increaseDeposit Increase the deposit on a ticker to avoid losing it from tax
      * @param _nftId Id of the Ticker NFT
      * @param _name Name of the ticker
      * @dev only Ticker Owner can call this
@@ -156,7 +145,8 @@ interface ITicker {
      * @param _nftId Id of the Ticker NFT
      * @param _name Name of the Ticker
      * @return ticker_ tuple(string name, uint128 setPrice, address contractTarget, uint128 gasLimit)
-     * @return shouldBeSurrender_ If it's true, the ticker will be surrended. The only way to avoid this is if the owner
+     * @return shouldBeSurrender_ If it's true, the ticker will be surrendered. The only way to avoid this is if the
+     * owner
      * calls deposit before any action.
      * @dev if `_nftId` is zero, it will use `_name` instead
      */

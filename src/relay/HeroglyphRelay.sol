@@ -6,9 +6,10 @@ import { HeroglyphAttestation } from "./../HeroglyphAttestation.sol";
 import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
 import { SendNativeHelper } from "./../SendNativeHelper.sol";
 
-import { ITickerOperator } from "./../identity/ticker/operator/ITickerOperator.sol";
+import { ITickerOperator } from "heroglyph-library/src/ITickerOperator.sol";
 import { ITicker } from "./../identity/ticker/ITicker.sol";
-import { IValidatorIdentity } from "./../identity/wallet/IValidatorIdentity.sol";
+import { IdentityRouter } from "./../identity/wallet/IdentityRouter.sol";
+import { IDelegation } from "./../identity/wallet/delegation/IDelegation.sol";
 
 /**
  * @title HeroglyphRelay
@@ -29,19 +30,16 @@ import { IValidatorIdentity } from "./../identity/wallet/IValidatorIdentity.sol"
  * See IHeroglyphRelay for function docs
  */
 contract HeroglyphRelay is IHeroglyphRelay, Ownable, SendNativeHelper {
-    IValidatorIdentity public immutable validatorIdentity;
-    ITicker public immutable tickers;
+    uint32 public constant GAS_LIMIT_MINIMUM = 50_000;
+
+    IdentityRouter public identityRouter;
+    ITicker public tickers;
     address public dedicatedMsgSender;
     address public treasury;
 
-    uint128 public nativeFeePerUnit;
-    uint128 private startGas;
     uint32 public lastBlockMinted;
-
     uint32 public gasLimitPerTicker;
-    uint32 private startGasTicker;
-    uint128 public gasRatioPerUnit;
-    uint128 public extraGasCredit;
+    uint128 public executionFee;
 
     modifier onlyDedicatedMsgSender() {
         if (msg.sender != dedicatedMsgSender) revert NotDedicatedMsgSender();
@@ -51,29 +49,30 @@ contract HeroglyphRelay is IHeroglyphRelay, Ownable, SendNativeHelper {
 
     constructor(
         address _owner,
-        address _validatorIdentity,
+        address _identityRouter,
         address _dedicatedMsgSender,
-        address _tinkers,
+        address _tickers,
         address _treasury
     ) Ownable(_owner) {
         dedicatedMsgSender = _dedicatedMsgSender;
-        validatorIdentity = IValidatorIdentity(_validatorIdentity);
-        tickers = ITicker(_tinkers);
+        identityRouter = IdentityRouter(_identityRouter);
+        tickers = ITicker(_tickers);
         treasury = _treasury;
 
-        nativeFeePerUnit = 0;
         gasLimitPerTicker = 400_000;
-        gasRatioPerUnit = 20_000;
-        extraGasCredit = 36_000;
     }
 
     function executeRelay(GraffitiData[] calldata _graffities)
         external
         override
         onlyDedicatedMsgSender
-        returns (uint256 totaltOfExecutions_)
+        returns (uint256 totalOfExecutions_)
     {
         if (_graffities.length == 0) revert EmptyGraffities();
+
+        uint32 cachedGasLimit = gasLimitPerTicker;
+        uint32 lastBlockMintedCached = lastBlockMinted;
+        uint128 cachedExecutionFee = executionFee;
 
         GraffitiData memory _graffiti;
         ITicker.TickerMetadata memory tickerData;
@@ -82,19 +81,22 @@ contract HeroglyphRelay is IHeroglyphRelay, Ownable, SendNativeHelper {
         string[] memory tickerNames;
         uint32[] memory lzEndpoints;
         uint32 arraysLength;
-        uint32 cachedGasLimit = gasLimitPerTicker;
         string memory tickerName;
         address tickerTarget;
         uint32 lzEndpointId;
         bool shouldBeSurrender;
+        string memory validatorName;
+        bool isDelegation;
+
         for (uint256 i = 0; i < _graffities.length; ++i) {
             _graffiti = _graffities[i];
             mintedBlock = _graffiti.mintedBlock;
+            validatorName = _graffiti.validatorName;
 
-            if (mintedBlock <= lastBlockMinted) continue;
-            lastBlockMinted = mintedBlock;
+            if (mintedBlock <= lastBlockMintedCached) continue;
+            lastBlockMintedCached = mintedBlock;
 
-            validator = validatorIdentity.getIdentityData(0, _graffiti.validatorName).tokenReceiver;
+            (validator, isDelegation) = identityRouter.getWalletReceiver(validatorName, _graffiti.validatorIndex);
             if (validator == address(0)) continue;
 
             tickerNames = _graffiti.tickers;
@@ -113,87 +115,63 @@ contract HeroglyphRelay is IHeroglyphRelay, Ownable, SendNativeHelper {
 
                 if (tickerTarget == address(0) || shouldBeSurrender || tickerData.price == 0) continue;
 
-                try this.callTicker(tickerTarget, cachedGasLimit, lzEndpointId, mintedBlock, validator) {
+                try this.callTicker(
+                    tickerTarget, cachedGasLimit, cachedExecutionFee, lzEndpointId, mintedBlock, validator
+                ) {
                     emit TickerExecuted(tickerName, validator, mintedBlock, tickerTarget, lzEndpointId);
+
+                    if (isDelegation) {
+                        IDelegation(validator).snapshot(validatorName, _graffiti.validatorIndex, tickerTarget);
+                    }
                 } catch (bytes memory errorCode) {
                     emit TickerReverted(tickerName, tickerTarget, errorCode);
                     continue;
                 }
             }
 
-            totaltOfExecutions_++;
+            ++totalOfExecutions_;
             emit BlockExecuted(mintedBlock, _graffiti.slotNumber, validator, _graffiti.graffitiText);
         }
 
-        if (totaltOfExecutions_ == 0) revert NoGraffitiExecution();
+        if (totalOfExecutions_ == 0) revert NoGraffitiExecution();
+
+        lastBlockMinted = lastBlockMintedCached;
 
         _sendNative(treasury, address(this).balance, false);
 
-        return totaltOfExecutions_;
+        return totalOfExecutions_;
     }
 
     function callTicker(
         address _ticker,
         uint32 _gasLimit,
-        uint32 _lzEndpointSelectionned,
+        uint128 _executionFee,
+        uint32 _lzEndpointSelected,
         uint32 _blockNumber,
-        address _validatorWithdrawer
+        address _identityReceiver
     ) external {
         if (msg.sender != address(this)) revert NoPermission();
-        if (_ticker == address(0)) revert NullAddress();
 
         uint128 balanceBefore = uint128(address(this).balance);
-        uint128 maxFee = _getExecutionNativeFee(_gasLimit, 0);
-
-        startGasTicker = _gasLimit;
-
-        //compensate for onValidatorTriggered && getExecutionNativeFee call
-        startGas = uint128(gasleft() - extraGasCredit);
 
         ITickerOperator(_ticker).onValidatorTriggered{ gas: _gasLimit }(
-            _lzEndpointSelectionned, _blockNumber, _validatorWithdrawer, maxFee
+            _lzEndpointSelected, _blockNumber, _identityReceiver, _executionFee
         );
 
-        uint128 due = _getExecutionNativeFee(startGas, uint128(gasleft()));
         uint128 balanceNow = uint128(address(this).balance) - balanceBefore;
-
-        if (balanceNow < due) revert NotRefunded();
+        if (balanceNow < _executionFee) revert NotRefunded();
     }
 
-    function getExecutionNativeFee(uint128 _addExtra) external view override returns (uint128) {
-        return _getExecutionNativeFee(_addExtra + startGasTicker, uint128(gasleft()));
+    function updateGasLimitPerTicker(uint32 _gasPerTicker) external onlyOwner {
+        if (_gasPerTicker < GAS_LIMIT_MINIMUM) revert GasLimitTooLow();
+
+        gasLimitPerTicker = _gasPerTicker;
+        emit GasPerTickerUpdated(_gasPerTicker);
     }
 
-    function _getExecutionNativeFee(uint128 _start, uint128 _end) internal view returns (uint128) {
-        if (_start <= _end) return 0;
-        return (((_start - _end) / gasRatioPerUnit) * nativeFeePerUnit);
-    }
-
-    function withdrawETH(address _to) external onlyOwner {
-        _sendNative(_to, address(this).balance, true);
-    }
-
-    function updateCostPerUnit(uint128 _costPerUnit) external onlyOwner {
-        nativeFeePerUnit = _costPerUnit;
-        emit CostPerUnitUpdated(_costPerUnit);
-    }
-
-    function updateGasRatioPerUnit(uint128 _gasRatioPerUnit) external onlyOwner {
-        if (_gasRatioPerUnit == 0) revert CannotBeZero();
-        gasRatioPerUnit = _gasRatioPerUnit;
-        emit GasPerUnitUpdated(gasRatioPerUnit);
-    }
-
-    function updateExtraGasCredit(uint128 _gasCredit) external onlyOwner {
-        extraGasCredit = _gasCredit;
-        emit ExtraGasCreditUpdate(_gasCredit);
-    }
-
-    function updateGasLimitPerTicker(uint32 _gasLimit) external onlyOwner {
-        if (_gasLimit < 50_000) revert GasLimitTooLow();
-
-        gasLimitPerTicker = _gasLimit;
-        emit GasLimitUpdated(_gasLimit);
+    function updateExecutionFee(uint128 _executionFee) external onlyOwner {
+        executionFee = _executionFee;
+        emit ExecutionFeeUpdated(_executionFee);
     }
 
     function updateDedicatedMsgSender(address _msg) external onlyOwner {
@@ -206,6 +184,20 @@ contract HeroglyphRelay is IHeroglyphRelay, Ownable, SendNativeHelper {
 
         treasury = _treasury;
         emit TreasuryUpdated(_treasury);
+    }
+
+    function updateIdentityRouter(address _identityRouter) external onlyOwner {
+        identityRouter = IdentityRouter(_identityRouter);
+        emit IdentityRouterUpdated(_identityRouter);
+    }
+
+    function updateTickers(address _tickers) external onlyOwner {
+        tickers = ITicker(_tickers);
+        emit TickersUpdated(_tickers);
+    }
+
+    function withdrawETH(address _to) external onlyOwner {
+        _sendNative(_to, address(this).balance, true);
     }
 
     receive() external payable { }

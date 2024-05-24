@@ -1,6 +1,9 @@
-[submodule "node_modules/@layerzerolabs/toolbox-foundry/lib/forge-std"]
-	path = node_modules/@layerzerolabs/toolbox-foundry/lib/forge-std
-	url = https://github.com/foundry-rs/forge-std
 [submodule "node_modules/@layerzerolabs/toolbox-foundry/lib/solmate"]
 	path = node_modules/@layerzerolabs/toolbox-foundry/lib/solmate
 	url = https://github.com/transmissions11/solmate
+[submodule "node_modules/@layerzerolabs/toolbox-foundry/lib/forge-std"]
+	path = node_modules/@layerzerolabs/toolbox-foundry/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "node_modules/@layerzerolabs/toolbox-foundry/lib/heroglyph-library"]
+	path = node_modules/@layerzerolabs/toolbox-foundry/lib/heroglyph-library
+	url = https://github.com/HeroglyphEVM/heroglyph-library

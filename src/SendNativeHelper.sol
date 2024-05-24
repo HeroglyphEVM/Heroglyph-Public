@@ -15,7 +15,7 @@ abstract contract SendNativeHelper {
     function _sendNative(address _to, uint256 _amount, bool _revertIfFails) internal {
         if (_amount == 0) return;
 
-        (bool success,) = _to.call{ value: _amount }("");
+        (bool success,) = _to.call{ gas: 60_000, value: _amount }("");
 
         if (!success) {
             if (_revertIfFails) revert FailedToSendETH();

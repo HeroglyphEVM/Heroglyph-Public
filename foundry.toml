@@ -6,6 +6,8 @@ test = 'test'
 out = 'out'
 via_ir = true
 verbosity = 3
+evm_version = "paris"
+auto_detect_remappings = false
 libs = [
     # ./lib are refered in toolbox-foundry/lib
     'node_modules/@layerzerolabs/toolbox-foundry/lib',
@@ -13,11 +15,14 @@ libs = [
 ]
 
 remappings = [
-    'src/=src/',
-    'ds-test/=node_modules/@layerzerolabs/toolbox-foundry/lib/ds-test',
-    'forge-std/=node_modules/@layerzerolabs/toolbox-foundry/lib/forge-std/src',
-    '@layerzerolabs/=node_modules/@layerzerolabs/',
-    '@openzeppelin/=node_modules/@openzeppelin/',
+'src/=src/',
+'ds-test/=node_modules/@layerzerolabs/toolbox-foundry/lib/ds-test/',
+'forge-std/=node_modules/@layerzerolabs/toolbox-foundry/lib/forge-std/src/',
+'@layerzerolabs/=node_modules/@layerzerolabs/',
+'@openzeppelin/=node_modules/@openzeppelin/',
+'heroglyph-library/=node_modules/@layerzerolabs/toolbox-foundry/lib/heroglyph-library/',
+'solidity-bytes-utils/=node_modules/solidity-bytes-utils/',
+'solmate/=node_modules/@layerzerolabs/toolbox-foundry/lib/solmate/',
 ]
 
 [profile.e2e]
@@ -40,38 +45,16 @@ include_push_bytes = true
 localhost = "http://127.0.0.1:8545"
 mainnet = "${RPC_MAINNET}"
 sepolia = "${RPC_SEPOLIA}"
+tenderly = "${RPC_TENDERLY}"
 arbitrumOne = "${RPC_ARBITRUM}"
 arbitrumOneTestnet = "${RPC_ARBITRUM_SEPOLIA}"
-polygon = "${RPC_POLYGON}"
-scroll = "${RPC_SCROLL}"
-avax = "${RPC_AVAX}"
-op = "${RPC_OP}"
-mantle = "${RPC_MANTLE}"
-linea = "${RPC_LINEA}"
-fantom = "${RPC_FANTOM}"
-base = "${RPC_BASE}"
-fraxtal = "${RPC_FRAXTAL}"
-gnosis = "${RPC_GNOSIS}"
-mode = "${RPC_MODE}"
 
 [etherscan]
 mainnet = { key = "${ETHERSCAN_KEY}", chain = 1, url = "https://api.etherscan.io/api/"}
-sepolia = { key = "${ETHERSCAN_KEY}", chain = 11155111, url = "https://api-sepolia.etherscan.io/api/"}
+sepolia = { key = "${ETHERSCAN_KEY}", chain = 11155111, url = "https://api-sepolia.etherscan.io/api/" }
+tenderly = { key = "${TENDERLY_KEY}", chain = 11155111, url = "${RPC_TENDERLY}/verify/etherscan" }
 arbitrumOne = { key = "${ARBISCAN_KEY}", chain = 42161, url = "https://api.arbiscan.io/api/"}
 arbitrumGoerli = { key = "${ARBISCAN_KEY}", chain = 421613, url = "https://api-sepolia.arbiscan.io/api/"}
-polygon = { key = "${POLYSCAN_KEY}", chain = 137, url = "https://api.polygonscan.com/api"}
-scroll = { key = "${SCROLLSCAN_KEY}", chain = 534352, url = "https://api.scrollscan.com/api"}
-avax = { key = "${AVAXSCAN_KEY}", chain = 43114, url = "https://api.avascan.info"}
-op = { key = "${OPSCAN_KEY}",  url = "https://api-optimistic.etherscan.io/api"}
-mantle = { key = "${MANTLESCAN_KEY}",  url = "https://api.mantlescan.xyz/api"}
-linea = { key = "${LINEASCAN_KEY}",  url = "https://api.lineascan.build/api"}
-fantom = { key = "${FANTOMSCAN_KEY}",  url = "https://api.ftmscan.com/api"}
-base = { key = "${BASESCAN_KEY}",  url = "https://api.basescan.org/api"}
-fraxtal = { key = "${FRAXTALSCAN_KEY}",  url = "https://api.fraxscan.com/api"}
-gnosis = { key = "${GNOSISSCAN_KEY}",  url = "https://api.gnosisscan.io/api"}
-mode = { key = "${MODESCAN_KEY}",  url = "https://explorer.mode.network//api"}
-
-
 
 [fmt]
 line_length = 120

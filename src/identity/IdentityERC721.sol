@@ -11,10 +11,10 @@ import { NameFilter } from "./NameFilter.sol";
 
 /**
  * @title IdentityERC721
- * @notice The base of Ticker & ValidatorIdentity. It handles name verification, id traking and the payment
+ * @notice The base of Ticker & ValidatorIdentity. It handles name verification, id tracking and the payment
  */
 abstract contract IdentityERC721 is IIdentityERC721, ERC721, SendNativeHelper, Ownable {
-    address public immutable treasury;
+    address public treasury;
     uint256 public cost;
     NameFilter public nameFilter;
 
@@ -22,9 +22,7 @@ abstract contract IdentityERC721 is IIdentityERC721, ERC721, SendNativeHelper, O
     uint256 private nextIdToMint;
 
     /**
-     * @dev Important, you need to have an array of your IdentityData. In the constructor, you must push your first
-     * element as "DEAD". nftId starts at 1
-     * @dev when creating an Indentity, call _create to validate and mint
+     * @dev Important, id starts at 1. When creating an Identity, call _create to validate and mint
      */
     constructor(
         address _owner,
@@ -50,11 +48,11 @@ abstract contract IdentityERC721 is IIdentityERC721, ERC721, SendNativeHelper, O
         if (!isNameHealthy) revert InvalidCharacter(characterIndex);
 
         mintedId_ = nextIdToMint;
-        nextIdToMint++;
+        ++nextIdToMint;
 
         identityIds[_name] = mintedId_;
 
-        _mint(msg.sender, mintedId_);
+        _safeMint(msg.sender, mintedId_);
         emit NewIdentityCreated(mintedId_, _name, msg.sender);
 
         if (_expectingCost == 0) return mintedId_;
@@ -70,6 +68,10 @@ abstract contract IdentityERC721 is IIdentityERC721, ERC721, SendNativeHelper, O
     }
 
     function isNameAvailable(string calldata _name) external view returns (bool success_, int32 failedAt_) {
+        return _isNameAvailable(_name);
+    }
+
+    function _isNameAvailable(string calldata _name) internal view virtual returns (bool success_, int32 failedAt_) {
         if (identityIds[_name] != 0) return (false, -1);
 
         uint256 characterIndex;
@@ -94,5 +96,10 @@ abstract contract IdentityERC721 is IIdentityERC721, ERC721, SendNativeHelper, O
     function updateCost(uint256 _cost) external onlyOwner {
         cost = _cost;
         emit CostUpdated(_cost);
+    }
+
+    function updateTreasury(address _treasury) external onlyOwner {
+        treasury = _treasury;
+        emit TreasuryUpdated(_treasury);
     }
 }

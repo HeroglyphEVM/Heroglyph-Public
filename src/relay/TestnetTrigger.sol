@@ -13,7 +13,7 @@ contract TestnetTrigger {
     }
 
     function multiTriggers(uint256 repeat, uint256 slot, string calldata graffiti) external {
-        for (uint256 i = 0; i < repeat; i++) {
+        for (uint256 i = 0; i < repeat; ++i) {
             emit TestnetTriggerGraffiti(block.number + repeat, slot, graffiti);
         }
     }
