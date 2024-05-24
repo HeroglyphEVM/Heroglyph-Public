@@ -4,7 +4,6 @@ pragma solidity ^0.8.25;
 import { ITicker } from "./ITicker.sol";
 import { IdentityERC721 } from "./../IdentityERC721.sol";
 
-import { ECDSA } from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import { MessageHashUtils } from "@openzeppelin/contracts/utils/cryptography/MessageHashUtils.sol";
 import { Math } from "@openzeppelin/contracts/utils/math/Math.sol";
 
@@ -16,53 +15,28 @@ import { ReentrancyGuard } from "@openzeppelin/contracts/utils/ReentrancyGuard.s
  * of it if your deposit reaches zero due to taxes or if it is hijacked by someone else.
  *
  * Tickers use the Harberger Tax logic with the following formula:
- * `tickerPrice * secondsSinceLastTimePaidTax / ONE_YEAR`
+ * `tickerPrice * secondsSinceLastTimePaidTax / TAX_PERIOD`
  *
  * See ITicker.sol for more information
  */
 contract Ticker is ITicker, IdentityERC721, ReentrancyGuard {
     using MessageHashUtils for bytes32;
 
-    uint32 public constant ONE_YEAR = 365 days;
+    uint32 public constant TAX_PERIOD = 365 days;
+    uint32 public initializationPeriod;
     uint32 public protectionInSeconds;
 
-    TickerMetadata[] internal identities;
+    mapping(uint256 => TickerMetadata) internal identities;
 
     constructor(address _owner, address _treasury, address _nameFilter, uint256 _cost)
         IdentityERC721(_owner, _treasury, _nameFilter, _cost, "Ticker", "Tkr")
     {
-        identities.push(
-            TickerMetadata({
-                name: "DEAD_TICKER",
-                contractTarget: address(0),
-                owningDate: uint32(block.timestamp),
-                price: 0,
-                immunityEnds: 0,
-                lastTimeTaxPaid: uint32(block.timestamp),
-                deposit: 0
-            })
-        );
-
         protectionInSeconds = 7 days;
-    }
-
-    function createWithSignature(TickerCreation calldata _tickerCreation, uint256 _deadline, bytes memory _signature)
-        external
-        payable
-        override
-    {
-        if (block.timestamp >= _deadline) revert ExpiredSignature();
-
-        bytes32 ethSignature =
-            keccak256(abi.encodePacked(msg.sender, _tickerCreation.name, _deadline)).toEthSignedMessageHash();
-        address signer = ECDSA.recover(ethSignature, _signature);
-
-        if (signer != msg.sender) revert NotSigner();
-
-        _executeCreate(_tickerCreation, 0);
+        initializationPeriod = uint32(block.timestamp + 1 hours);
     }
 
     function create(TickerCreation calldata _tickerCreation) external payable override {
+        if (initializationPeriod > block.timestamp) revert InitializationPeriodActive();
         _executeCreate(_tickerCreation, 0);
     }
 
@@ -78,46 +52,28 @@ contract Ticker is ITicker, IdentityERC721, ReentrancyGuard {
         string memory tickerName = _tickerCreation.name;
         uint128 price = _tickerCreation.setPrice;
 
+        if (price < cost) revert PriceTooLow();
         if (msg.value < cost) revert NotEnough();
 
-        _create(tickerName, 0);
+        uint256 id = _create(tickerName, 0);
 
-        identities.push(
-            TickerMetadata({
-                name: tickerName,
-                contractTarget: _tickerCreation.contractTarget,
-                owningDate: uint32(block.timestamp),
-                lastTimeTaxPaid: uint32(block.timestamp + _immunityDuration),
-                immunityEnds: uint32(block.timestamp + _immunityDuration),
-                price: price,
-                deposit: uint128(msg.value)
-            })
-        );
+        identities[id] = TickerMetadata({
+            name: tickerName,
+            contractTarget: _tickerCreation.contractTarget,
+            owningDate: uint32(block.timestamp),
+            lastTimeTaxPaid: uint32(block.timestamp + _immunityDuration),
+            immunityEnds: uint32(block.timestamp + _immunityDuration),
+            price: price,
+            deposit: uint128(msg.value)
+        });
     }
 
-    function updateTicker(uint256 _nftId, string memory _name, address _contractTarget) external override {
-        if (_nftId == 0) {
-            _nftId = identityIds[_name];
-        } else {
-            _name = identities[_nftId].name;
-        }
-
-        TickerMetadata storage ticker = identities[_nftId];
-
-        if (ownerOf(_nftId) != msg.sender) revert NotIdentityOwner();
-
-        if (!_payTax(_nftId, ticker)) revert TickerUnderWater();
-
-        ticker.contractTarget = _contractTarget;
-        emit TickerUpdated(_nftId, _name, _contractTarget, ticker.price);
-    }
-
-    function hijack(uint256 _nftId, string memory _name, uint128 _newPrice) external payable override {
-        if (_nftId == 0) {
-            _nftId = identityIds[_name];
-        } else {
-            _name = identities[_nftId].name;
-        }
+    function hijack(uint256 _nftId, string memory _name, uint128 _tickerPrice, uint128 _newPrice)
+        external
+        payable
+        override
+    {
+        (_nftId, _name) = _sanitizeIdAndName(_nftId, _name);
 
         TickerMetadata storage ticker = identities[_nftId];
 
@@ -126,7 +82,9 @@ contract Ticker is ITicker, IdentityERC721, ReentrancyGuard {
         address currentOwner = ownerOf(_nftId);
         uint128 price = ticker.price;
 
-        if (_newPrice == 0) revert PriceIsZero();
+        if (price > _tickerPrice) revert FrontRunGuard();
+        if (_newPrice < cost) revert PriceTooLow();
+
         if (currentOwner == address(0)) revert TickerNotFound();
         if (currentOwner == msg.sender) revert CantSelfBuy();
         if (currentOwner != address(this) && block.timestamp < ticker.owningDate + protectionInSeconds) {
@@ -139,25 +97,31 @@ contract Ticker is ITicker, IdentityERC721, ReentrancyGuard {
         ticker.deposit = uint128(msg.value) - price;
         _transferTicker(_nftId, ownerOf(_nftId), msg.sender, _newPrice);
 
-        if (totalOwned != 0) {
-            _sendNative(currentOwner, totalOwned, false);
-        }
+        _sendNative(currentOwner, totalOwned, false);
 
         emit TickerHijacked(_nftId, _name, msg.sender, price, totalOwned);
     }
 
-    function updatePrice(uint256 _nftId, string memory _name, uint128 _newPrice) external payable override {
-        if (_nftId == 0) {
-            _nftId = identityIds[_name];
-        } else {
-            _name = identities[_nftId].name;
-        }
+    function updateTicker(uint256 _nftId, string memory _name, address _contractTarget) external override {
+        (_nftId, _name) = _sanitizeIdAndName(_nftId, _name);
 
         TickerMetadata storage ticker = identities[_nftId];
-        ticker.deposit += uint128(msg.value);
 
         if (ownerOf(_nftId) != msg.sender) revert NotIdentityOwner();
-        if (_newPrice == 0) revert PriceIsZero();
+
+        if (!_payTax(_nftId, ticker)) revert TickerUnderWater();
+
+        ticker.contractTarget = _contractTarget;
+        emit TickerUpdated(_nftId, _name, _contractTarget, ticker.price);
+    }
+
+    function updatePrice(uint256 _nftId, string memory _name, uint128 _newPrice) external override {
+        (_nftId, _name) = _sanitizeIdAndName(_nftId, _name);
+
+        TickerMetadata storage ticker = identities[_nftId];
+
+        if (ownerOf(_nftId) != msg.sender) revert NotIdentityOwner();
+        if (_newPrice < cost) revert PriceTooLow();
 
         if (!_payTax(_nftId, ticker)) revert TickerUnderWater();
         ticker.price = _newPrice;
@@ -166,11 +130,7 @@ contract Ticker is ITicker, IdentityERC721, ReentrancyGuard {
     }
 
     function increaseDeposit(uint256 _nftId, string memory _name) external payable override {
-        if (_nftId == 0) {
-            _nftId = identityIds[_name];
-        } else {
-            _name = identities[_nftId].name;
-        }
+        (_nftId, _name) = _sanitizeIdAndName(_nftId, _name);
 
         if (ownerOf(_nftId) != msg.sender) revert NotIdentityOwner();
 
@@ -183,11 +143,7 @@ contract Ticker is ITicker, IdentityERC721, ReentrancyGuard {
     }
 
     function withdrawDeposit(uint256 _nftId, string memory _name, uint128 _amount) external override nonReentrant {
-        if (_nftId == 0) {
-            _nftId = identityIds[_name];
-        } else {
-            _name = identities[_nftId].name;
-        }
+        (_nftId, _name) = _sanitizeIdAndName(_nftId, _name);
 
         TickerMetadata storage ticker = identities[_nftId];
 
@@ -216,7 +172,8 @@ contract Ticker is ITicker, IdentityERC721, ReentrancyGuard {
 
         uint128 currentPrice = _ticker.price;
         uint128 deposit = _ticker.deposit;
-        uint128 lastTimeTaxPaid = _ticker.lastTimeTaxPaid;
+        uint32 lastTimeTaxPaid = _ticker.lastTimeTaxPaid;
+        uint32 lastTimeTaxPaidWithBalance = uint32(block.timestamp);
 
         uint256 tax = _getTaxDue(currentPrice, lastTimeTaxPaid);
 
@@ -225,19 +182,18 @@ contract Ticker is ITicker, IdentityERC721, ReentrancyGuard {
         if (tax >= deposit) {
             success_ = false;
 
-            uint32 lastTimeTaxPaidWithBalance =
-                uint32(lastTimeTaxPaid + Math.mulDiv(block.timestamp - lastTimeTaxPaid, deposit, tax));
-
-            emit FailedToPayTax(_tickerId, _ticker.name, tax - deposit, lastTimeTaxPaidWithBalance);
+            lastTimeTaxPaidWithBalance =
+                lastTimeTaxPaid + uint32(Math.mulDiv(block.timestamp - lastTimeTaxPaid, deposit, tax));
 
             tax = deposit;
         } else {
             _ticker.lastTimeTaxPaid = uint32(block.timestamp);
-            emit TaxPaid(_tickerId, _ticker.name, tax, uint32(block.timestamp));
         }
 
         deposit -= uint128(tax);
         _ticker.deposit = deposit;
+
+        emit TaxPaid(_tickerId, _ticker.name, tax, deposit, lastTimeTaxPaidWithBalance);
 
         _trySurrender(_tickerId, deposit);
         _sendNative(treasury, tax, true);
@@ -264,8 +220,18 @@ contract Ticker is ITicker, IdentityERC721, ReentrancyGuard {
         if (previousOwner != _owner) revert NotIdentityOwner();
 
         if (_newPrice == 0) {
-            emit TickerSurrended(_id, ticker.name, _owner);
+            emit TickerSurrendered(_id, ticker.name, _owner);
         }
+    }
+
+    function _sanitizeIdAndName(uint256 _id, string memory _name) internal view returns (uint256, string memory) {
+        if (_id == 0) {
+            _id = identityIds[_name];
+        } else {
+            _name = identities[_id].name;
+        }
+
+        return (_id, _name);
     }
 
     function transferFrom(address, address, uint256) public pure override {
@@ -310,9 +276,9 @@ contract Ticker is ITicker, IdentityERC721, ReentrancyGuard {
     }
 
     function _getTaxDue(uint128 _price, uint128 _lastPaid) private view returns (uint256 _tax) {
-        if (_lastPaid > block.timestamp) return 0;
+        if (_lastPaid >= block.timestamp) return 0;
 
-        return Math.mulDiv(_price, (block.timestamp - _lastPaid), ONE_YEAR);
+        return Math.mulDiv(_price, (block.timestamp - _lastPaid), TAX_PERIOD);
     }
 
     function getTickerMetadata(uint256 _nftId, string calldata _name)

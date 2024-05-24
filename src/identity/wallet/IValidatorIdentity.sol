@@ -105,7 +105,7 @@ interface IValidatorIdentity {
      * @param _nftId The ID of the NFT.
      * @param _name The name of the identity.
      * @dev Use either `_nftId` or `_name`. If you want to use `_name`, set `_nftId` to 0.
-     * @dev Only the identity origina; owner can call this and it shouldn't be during a delegation
+     * @dev Only the identity original; owner can call this and it shouldn't be during a delegation
      * @dev The system will automatically restore the original wallet receiver before transferring
      */
     function retrieveDelegation(uint256 _nftId, string memory _name) external;

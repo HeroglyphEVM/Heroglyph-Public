@@ -12,6 +12,7 @@ interface IIdentityERC721 {
     event NewIdentityCreated(uint256 indexed identityId, string indexed identityName, address indexed owner);
     event NameFilterUpdated(address indexed newNameFilter);
     event CostUpdated(uint256 newCost);
+    event TreasuryUpdated(address newTreasury);
 
     /**
      * @notice getIdentityNFTId get the NFT Id attached to the name

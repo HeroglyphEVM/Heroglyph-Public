@@ -17,16 +17,18 @@ contract NameFilter {
         uint8 charByte;
         uint16 charValue;
 
-        if (strBytes.length == 0) return (false, index);
+        if (strBytes.length == 0 || strBytes.length > 28) return (false, index);
 
         while (index < strBytes.length) {
             charByte = uint8(strBytes[index]);
 
+            if (charByte >= 0xF0) return (false, index);
+
             if (charByte <= 0x7F) {
                 // Single byte character (Basic Latin range)
                 if (
-                    !(charByte > 0x20 && charByte <= 0x7E) || charByte == 0xA0 || charByte == 0x24 || charByte == 0x3A
-                        || charByte == 0x2C || charByte == 0x40 || charByte == 0x2D
+                    !(charByte > 0x20 && charByte <= 0x7E) || charByte == 0xA0 || charByte == 0x23 || charByte == 0x24
+                        || charByte == 0x3A || charByte == 0x2C || charByte == 0x40 || charByte == 0x2D
                 ) {
                     return (false, index);
                 }
