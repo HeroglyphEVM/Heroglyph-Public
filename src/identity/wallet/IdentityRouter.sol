@@ -20,6 +20,7 @@ contract IdentityRouter is Ownable, IIdentityRouter {
      * @inheritdoc IIdentityRouter
      */
     function hookIdentities(string calldata _parentIdentiyName, string[] calldata _children) external override {
+        if (_children.length == 0) revert EmptyArray();
         if (validatorIdentity.ownerOf(_parentIdentiyName) != msg.sender) revert NotIdentityOwner();
 
         ValidatorIdentityV2.Identifier memory identity;
@@ -28,6 +29,8 @@ contract IdentityRouter is Ownable, IIdentityRouter {
         for (uint256 i = 0; i < _children.length; ++i) {
             childIdentityName = _children[i];
             identity = validatorIdentity.getIdentityData(0, childIdentityName);
+
+            if (bytes(identity.name).length == 0) revert ChildNotFound(i, childIdentityName);
 
             routers[_parentIdentiyName][identity.validatorUUID] = RouterConfig(childIdentityName, false);
 

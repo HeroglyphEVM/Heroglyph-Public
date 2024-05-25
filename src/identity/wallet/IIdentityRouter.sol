@@ -3,6 +3,8 @@ pragma solidity >= 0.8.0;
 
 interface IIdentityRouter {
     error NotIdentityOwner();
+    error ChildNotFound(uint256 indexPosition, string childName);
+    error EmptyArray();
 
     event HookedIdentity(string indexed parentIdentityName, uint32 indexed childValidatorIndex, string childName);
     event ValidatorIdentityUpdated(address validatorIdentity);
