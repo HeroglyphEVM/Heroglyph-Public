@@ -1,3 +1,8 @@
-ds-test/=lib/forge-std/lib/ds-test/src/
-forge-std/=lib/forge-std/src/
 src/=src/
+ds-test/=node_modules/@layerzerolabs/toolbox-foundry/lib/ds-test/
+forge-std/=node_modules/@layerzerolabs/toolbox-foundry/lib/forge-std/src/
+@layerzerolabs/=node_modules/@layerzerolabs/
+@openzeppelin/=node_modules/@openzeppelin/
+heroglyph-library/=node_modules/@layerzerolabs/toolbox-foundry/lib/heroglyph-library/
+solidity-bytes-utils/=node_modules/solidity-bytes-utils/
+solmate/=node_modules/@layerzerolabs/toolbox-foundry/lib/solmate/

@@ -4,9 +4,6 @@ pragma solidity ^0.8.25;
 import { IdentityERC721 } from "../IdentityERC721.sol";
 import { IValidatorIdentity } from "./IValidatorIdentity.sol";
 
-import { ECDSA } from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
-
-import { MessageHashUtils } from "@openzeppelin/contracts/utils/cryptography/MessageHashUtils.sol";
 import { MerkleProof } from "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 
 /**
@@ -17,8 +14,6 @@ import { MerkleProof } from "@openzeppelin/contracts/utils/cryptography/MerklePr
  * For more details, refer to IValidatorIdentity.sol.
  */
 contract ValidatorIdentity is IValidatorIdentity, IdentityERC721 {
-    using MessageHashUtils for bytes32;
-
     mapping(uint256 => DelegatedIdentity) internal delegations;
     Identifier[] internal identities;
     uint32 public earlyBridsEnd;
@@ -48,22 +43,6 @@ contract ValidatorIdentity is IValidatorIdentity, IdentityERC721 {
         _executeCreate(_name, _receiverWallet);
     }
 
-    function createWithSignature(
-        string calldata _name,
-        address _receiverWallet,
-        uint256 _deadline,
-        bytes memory _signature
-    ) external payable override onlyEndEarlyBirdsPeriod {
-        if (block.timestamp >= _deadline) revert ExpiredSignature();
-
-        bytes32 ethSignature = keccak256(abi.encodePacked(msg.sender, _name, _deadline)).toEthSignedMessageHash();
-        address signer = ECDSA.recover(ethSignature, _signature);
-
-        if (signer != msg.sender) revert NotSigner();
-
-        _executeCreate(_name, _receiverWallet);
-    }
-
     function create(string calldata _name, address _receiverWallet) external payable override onlyEndEarlyBirdsPeriod {
         _executeCreate(_name, _receiverWallet);
     }
@@ -81,11 +60,7 @@ contract ValidatorIdentity is IValidatorIdentity, IdentityERC721 {
     {
         if (_amountOfMonths == 0) revert InvalidMonthTime();
 
-        if (_nftId == 0) {
-            _nftId = identityIds[_name];
-        } else {
-            _name = identities[_nftId].name;
-        }
+        (_nftId, _name) = _sanitizeIdAndName(_nftId, _name);
 
         delegations[_nftId] = DelegatedIdentity({
             isEnabled: true,
@@ -102,17 +77,21 @@ contract ValidatorIdentity is IValidatorIdentity, IdentityERC721 {
         emit DelegationUpdated(_name, _nftId, true);
     }
 
-    function acceptDelegation(uint256 _nftId, string memory _name, address _receiverWallet) external payable override {
-        if (_nftId == 0) {
-            _nftId = identityIds[_name];
-        } else {
-            _name = identities[_nftId].name;
-        }
+    function acceptDelegation(
+        uint256 _nftId,
+        uint8 _expectedDurationInMonth,
+        string memory _name,
+        address _receiverWallet
+    ) external payable override {
+        if (_receiverWallet == address(0)) revert AddressCannotBeZero();
+
+        (_nftId, _name) = _sanitizeIdAndName(_nftId, _name);
 
         DelegatedIdentity storage delegated = delegations[_nftId];
 
         if (!delegated.isEnabled) revert DelegationNotActive();
         if (delegated.endDelegationTime > block.timestamp) revert DelegationNotOver();
+        if (delegated.durationInMonths != _expectedDurationInMonth) revert DifferentMonthAllocation();
         if (delegated.cost != msg.value) revert NotEnough();
 
         uint32 endPeriod = uint32(block.timestamp + (30 days * uint32(delegated.durationInMonths)));
@@ -128,11 +107,7 @@ contract ValidatorIdentity is IValidatorIdentity, IdentityERC721 {
     }
 
     function toggleDelegation(uint256 _nftId, string memory _name) external override {
-        if (_nftId == 0) {
-            _nftId = identityIds[_name];
-        } else {
-            _name = identities[_nftId].name;
-        }
+        (_nftId, _name) = _sanitizeIdAndName(_nftId, _name);
 
         DelegatedIdentity storage delegated = delegations[_nftId];
         bool currentState = delegated.isEnabled;
@@ -145,11 +120,7 @@ contract ValidatorIdentity is IValidatorIdentity, IdentityERC721 {
     }
 
     function retrieveDelegation(uint256 _nftId, string memory _name) external override {
-        if (_nftId == 0) {
-            _nftId = identityIds[_name];
-        } else {
-            _name = identities[_nftId].name;
-        }
+        (_nftId, _name) = _sanitizeIdAndName(_nftId, _name);
 
         DelegatedIdentity storage delegated = delegations[_nftId];
 
@@ -171,11 +142,9 @@ contract ValidatorIdentity is IValidatorIdentity, IdentityERC721 {
         external
         override
     {
-        if (_nftId == 0) {
-            _nftId = identityIds[_name];
-        } else {
-            _name = identities[_nftId].name;
-        }
+        if (_receiverWallet == address(0)) revert AddressCannotBeZero();
+
+        (_nftId, _name) = _sanitizeIdAndName(_nftId, _name);
 
         DelegatedIdentity storage delegated = delegations[_nftId];
 
@@ -186,18 +155,26 @@ contract ValidatorIdentity is IValidatorIdentity, IdentityERC721 {
     }
 
     function updateReceiverAddress(uint256 _nftId, string memory _name, address _receiver) external override {
-        if (_nftId == 0) {
-            _nftId = identityIds[_name];
-        } else {
-            _name = identities[_nftId].name;
-        }
+        (_nftId, _name) = _sanitizeIdAndName(_nftId, _name);
 
         if (ownerOf(_nftId) != msg.sender) revert NotIdentityOwner();
 
         _updateReceiverAddress(_nftId, _receiver);
     }
 
+    function _sanitizeIdAndName(uint256 _nftId, string memory _name) internal view returns (uint256, string memory) {
+        if (_nftId == 0) {
+            _nftId = identityIds[_name];
+        } else {
+            _name = identities[_nftId].name;
+        }
+
+        return (_nftId, _name);
+    }
+
     function _updateReceiverAddress(uint256 _nftId, address _receiver) private {
+        if (_receiver == address(0)) revert AddressCannotBeZero();
+
         Identifier storage identity = identities[_nftId];
         identity.tokenReceiver = _receiver;
 

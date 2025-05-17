@@ -1,0 +1,21 @@
+{
+    "sepolia":
+    {
+        "0_owner": "0x835E072530503DddA07B2F35e05DD3e647a0D9F2", 
+        "1_treasury": "0x835E072530503DddA07B2F35e05DD3e647a0D9F2", 
+        "2_lzEndpoint":"0x6edce65403992e310a62460808c4b910d972f10f", 
+        "3_dedicatedMsgSender":"0xd6a81Cea50DcAdBa51Fd54729407F82eBfaFCA00", 
+        "4_lzDeploymentChainEndpointId": 40161, 
+        "5_validatorIdentityCost":25000000000000, 
+        "6_tickerCost":25000000000000,
+        "7_nativeTokenWrapped": "0x7b79995e5f793a07bc00c21412e50ecae098e7f9",
+        "8_create3Factory": "0x9fBB3DF7C40Da2e5A0dE984fFE2CCB7C47cd0ABf",
+        "9_isTestnet": true
+    },
+    "arbitrumOne":
+    {
+        "0_owner": "0x888D768764A2E304215247F0bA3457cCb0f0ab4f", 
+        "1_relayer": "0xa30cCE750cbE9664A0e46C323Fa2ed5376B25A93", 
+        "2_dedicatedMsgSender":"0x884326950e7c05695F601D5368c05aBaAEC7D94A"
+    }
+}

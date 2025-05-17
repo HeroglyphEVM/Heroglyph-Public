@@ -4,6 +4,8 @@ pragma solidity >= 0.8.0;
 interface IValidatorIdentity {
     error EarlyBirdOnly();
     error InvalidProof();
+    error DifferentMonthAllocation();
+    error AddressCannotBeZero();
 
     /**
      * @notice Identifier
@@ -52,20 +54,6 @@ interface IValidatorIdentity {
     );
 
     /**
-     * createWithSignature Create an Identity with signature to avoid getting front-runned
-     * @param _name Name of the Identity
-     * @param _receiverWallet Wallet that will be receiving the rewards
-     * @param _deadline Deadline of the signature
-     * @param _signature signed message abi.encodePacket(userAddress,name,deadline)
-     */
-    function createWithSignature(
-        string calldata _name,
-        address _receiverWallet,
-        uint256 _deadline,
-        bytes memory _signature
-    ) external payable;
-
-    /**
      * create Create an Identity
      * @param _name name of the Identity
      * @param _receiverWallet Wallet that will be receiving the rewards
@@ -85,11 +73,17 @@ interface IValidatorIdentity {
     /**
      * @notice acceptDelegation Accept a delegation to use it for yourself during the set period defined
      * @param _nftId The ID of the NFT.
+     * @param _expectedDurationInMonth The delegation duration in month
      * @param _name The name of the identity.
      * @param _receiverWallet wallet you want the token(s) to be minted to
      * @dev Use either `_nftId` or `_name`. If you want to use `_name`, set `_nftId` to 0.
      */
-    function acceptDelegation(uint256 _nftId, string memory _name, address _receiverWallet) external payable;
+    function acceptDelegation(
+        uint256 _nftId,
+        uint8 _expectedDurationInMonth,
+        string memory _name,
+        address _receiverWallet
+    ) external payable;
     /**
      * @notice toggleDelegation Disable/Enable your delegation, so if it's currently used, nobody won't be able to
      * accept it

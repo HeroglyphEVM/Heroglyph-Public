@@ -1,0 +1,198 @@
+{
+    "localhost":
+    {
+        "0_owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266", 
+        "1_treasury": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8", 
+        "2_lzEndpoint":"0x6edce65403992e310a62460808c4b910d972f10f", 
+        "3_dedicatedMsgSender":"0xd6a81Cea50DcAdBa51Fd54729407F82eBfaFCA00", 
+        "4_lzDeploymentChainEndpointId": 40161, 
+        "5_validatorIdentityCost":25000000000000, 
+        "6_tickerCost":25000000000000,
+        "7_nativeTokenWrapped": "0x0000000000000000000000000000000000000000",
+        "8_create3Factory": "0x0000000000000000000000000000000000000000",
+        "9_isTestnet": true
+    },
+    "sepolia":
+    {
+        "0_owner": "0x835E072530503DddA07B2F35e05DD3e647a0D9F2", 
+        "1_treasury": "0x835E072530503DddA07B2F35e05DD3e647a0D9F2", 
+        "2_lzEndpoint":"0x6edce65403992e310a62460808c4b910d972f10f", 
+        "3_dedicatedMsgSender":"0xd6a81Cea50DcAdBa51Fd54729407F82eBfaFCA00", 
+        "4_lzDeploymentChainEndpointId": 40161, 
+        "5_validatorIdentityCost":25000000000000, 
+        "6_tickerCost":25000000000000,
+        "7_nativeTokenWrapped": "0x7b79995e5f793a07bc00c21412e50ecae098e7f9",
+        "8_create3Factory": "0x9fBB3DF7C40Da2e5A0dE984fFE2CCB7C47cd0ABf",
+        "9_isTestnet": true
+    },
+    "arbitrumOneTestnet":
+    {
+        "0_owner": "0x835E072530503DddA07B2F35e05DD3e647a0D9F2", 
+        "1_treasury": "0x835E072530503DddA07B2F35e05DD3e647a0D9F2", 
+        "2_lzEndpoint":"0x6edce65403992e310a62460808c4b910d972f10f", 
+        "3_dedicatedMsgSender":"0x0000000000000000000000000000000000000000", 
+        "4_lzDeploymentChainEndpointId": 40231, 
+        "5_validatorIdentityCost":25000000000000, 
+        "6_tickerCost":25000000000000,
+        "7_nativeTokenWrapped": "0x980B62Da83eFf3D4576C647993b0c1D7faf17c73",
+        "8_create3Factory": "0x9fBB3DF7C40Da2e5A0dE984fFE2CCB7C47cd0ABf",
+        "9_isTestnet": true
+    },
+    "arbitrumOne":
+    {
+        "0_owner": "0x888D768764A2E304215247F0bA3457cCb0f0ab4f", 
+        "1_treasury": "0x888D768764A2E304215247F0bA3457cCb0f0ab4f", 
+        "2_lzEndpoint":"0x1a44076050125825900e736c501f859c50fe728c", 
+        "3_dedicatedMsgSender":"0x884326950e7c05695F601D5368c05aBaAEC7D94A", 
+        "4_lzDeploymentChainEndpointId": 30110, 
+        "5_validatorIdentityCost":100000000000000000, 
+        "6_tickerCost":100000000000000000,
+        "7_nativeTokenWrapped": "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1",
+        "8_create3Factory": "0x9fBB3DF7C40Da2e5A0dE984fFE2CCB7C47cd0ABf",
+        "9_isTestnet": false
+    },
+    "polygon":
+    {
+        "0_owner": "0x888D768764A2E304215247F0bA3457cCb0f0ab4f", 
+        "1_treasury": "0x888D768764A2E304215247F0bA3457cCb0f0ab4f", 
+        "2_lzEndpoint":"0x1a44076050125825900e736c501f859c50fe728c", 
+        "3_dedicatedMsgSender":"0x0000000000000000000000000000000000000000", 
+        "4_lzDeploymentChainEndpointId": 30109, 
+        "5_validatorIdentityCost":0, 
+        "6_tickerCost":0,
+        "7_nativeTokenWrapped": "0xe50fa9b3c56ffb159cb0fca61f5c9d750e8128c8",
+        "8_create3Factory": "0x9fBB3DF7C40Da2e5A0dE984fFE2CCB7C47cd0ABf",
+        "9_isTestnet": false
+    },
+    "scroll":
+    {
+        "0_owner": "0x888D768764A2E304215247F0bA3457cCb0f0ab4f", 
+        "1_treasury": "0x888D768764A2E304215247F0bA3457cCb0f0ab4f", 
+        "2_lzEndpoint":"0x1a44076050125825900e736c501f859c50fe728c", 
+        "3_dedicatedMsgSender":"0x0000000000000000000000000000000000000000", 
+        "4_lzDeploymentChainEndpointId": 30214, 
+        "5_validatorIdentityCost":0, 
+        "6_tickerCost":0,
+        "7_nativeTokenWrapped": "0x5300000000000000000000000000000000000004",
+        "8_create3Factory": "0x0000000000000000000000000000000000000000",
+        "9_isTestnet": false
+    },
+    "avax":
+    {
+        "0_owner": "0x888D768764A2E304215247F0bA3457cCb0f0ab4f", 
+        "1_treasury": "0x888D768764A2E304215247F0bA3457cCb0f0ab4f", 
+        "2_lzEndpoint":"0x1a44076050125825900e736c501f859c50fe728c", 
+        "3_dedicatedMsgSender":"0x0000000000000000000000000000000000000000", 
+        "4_lzDeploymentChainEndpointId": 30106, 
+        "5_validatorIdentityCost":0, 
+        "6_tickerCost":0,
+        "7_nativeTokenWrapped": "0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB",
+        "8_create3Factory": "0x9fBB3DF7C40Da2e5A0dE984fFE2CCB7C47cd0ABf",
+        "9_isTestnet": false
+    },
+    "op":
+    {
+        "0_owner": "0x888D768764A2E304215247F0bA3457cCb0f0ab4f", 
+        "1_treasury": "0x888D768764A2E304215247F0bA3457cCb0f0ab4f", 
+        "2_lzEndpoint":"0x1a44076050125825900e736c501f859c50fe728c", 
+        "3_dedicatedMsgSender":"0x0000000000000000000000000000000000000000", 
+        "4_lzDeploymentChainEndpointId": 30111, 
+        "5_validatorIdentityCost":0, 
+        "6_tickerCost":0,
+        "7_nativeTokenWrapped": "0x4200000000000000000000000000000000000006",
+        "8_create3Factory": "0x9fBB3DF7C40Da2e5A0dE984fFE2CCB7C47cd0ABf",
+        "9_isTestnet": false
+    },
+    "mantle":
+    {
+        "0_owner": "0x888D768764A2E304215247F0bA3457cCb0f0ab4f", 
+        "1_treasury": "0x888D768764A2E304215247F0bA3457cCb0f0ab4f", 
+        "2_lzEndpoint":"0x1a44076050125825900e736c501f859c50fe728c", 
+        "3_dedicatedMsgSender":"0x0000000000000000000000000000000000000000", 
+        "4_lzDeploymentChainEndpointId": 30181, 
+        "5_validatorIdentityCost":0, 
+        "6_tickerCost":0,
+        "7_nativeTokenWrapped": "0xdEAddEaDdeadDEadDEADDEAddEADDEAddead1111",
+        "8_create3Factory": "0x0000000000000000000000000000000000000000",
+        "9_isTestnet": false
+    },
+    "linea":
+    {
+        "0_owner": "0x888D768764A2E304215247F0bA3457cCb0f0ab4f", 
+        "1_treasury": "0x888D768764A2E304215247F0bA3457cCb0f0ab4f", 
+        "2_lzEndpoint":"0x1a44076050125825900e736c501f859c50fe728c", 
+        "3_dedicatedMsgSender":"0x0000000000000000000000000000000000000000", 
+        "4_lzDeploymentChainEndpointId": 30183, 
+        "5_validatorIdentityCost":0, 
+        "6_tickerCost":0,
+        "7_nativeTokenWrapped": "0xe5d7c2a44ffddf6b295a15c148167daaaf5cf34f",
+        "8_create3Factory": "0x0000000000000000000000000000000000000000",
+        "9_isTestnet": false
+    },
+    "fantom":
+    {
+        "0_owner": "0x888D768764A2E304215247F0bA3457cCb0f0ab4f", 
+        "1_treasury": "0x888D768764A2E304215247F0bA3457cCb0f0ab4f", 
+        "2_lzEndpoint":"0x1a44076050125825900e736c501f859c50fe728c", 
+        "3_dedicatedMsgSender":"0x0000000000000000000000000000000000000000", 
+        "4_lzDeploymentChainEndpointId": 30112, 
+        "5_validatorIdentityCost":0, 
+        "6_tickerCost":0,
+        "7_nativeTokenWrapped": "0x74b23882a30290451a17c44f4f05243b6b58c76d",
+        "8_create3Factory": "0x9fBB3DF7C40Da2e5A0dE984fFE2CCB7C47cd0ABf",
+        "9_isTestnet": false
+    },
+    "base":
+    {
+        "0_owner": "0x888D768764A2E304215247F0bA3457cCb0f0ab4f", 
+        "1_treasury": "0x888D768764A2E304215247F0bA3457cCb0f0ab4f", 
+        "2_lzEndpoint":"0x1a44076050125825900e736c501f859c50fe728c", 
+        "3_dedicatedMsgSender":"0x0000000000000000000000000000000000000000", 
+        "4_lzDeploymentChainEndpointId": 30184, 
+        "5_validatorIdentityCost":0, 
+        "6_tickerCost":0,
+        "7_nativeTokenWrapped": "0x4200000000000000000000000000000000000006",
+        "8_create3Factory": "0x9fBB3DF7C40Da2e5A0dE984fFE2CCB7C47cd0ABf",
+        "9_isTestnet": false
+    },
+    "fraxtal":
+    {
+        "0_owner": "0xc90B92d70AF24eF1369389f1A1E3887305cD89c9", 
+        "1_treasury": "0xc90B92d70AF24eF1369389f1A1E3887305cD89c9", 
+        "2_lzEndpoint":"0x1a44076050125825900e736c501f859c50fE728c", 
+        "3_dedicatedMsgSender":"0x0000000000000000000000000000000000000000", 
+        "4_lzDeploymentChainEndpointId": 30255, 
+        "5_validatorIdentityCost":0, 
+        "6_tickerCost":0,
+        "7_nativeTokenWrapped": "0xfc00000000000000000000000000000000000006",
+        "8_create3Factory": "0x0000000000000000000000000000000000000000",
+        "9_isTestnet": false
+    },
+    "gnosis":
+    {
+        "0_owner": "0x888D768764A2E304215247F0bA3457cCb0f0ab4f", 
+        "1_treasury": "0x888D768764A2E304215247F0bA3457cCb0f0ab4f", 
+        "2_lzEndpoint":"0x1a44076050125825900e736c501f859c50fe728c", 
+        "3_dedicatedMsgSender":"0x0000000000000000000000000000000000000000", 
+        "4_lzDeploymentChainEndpointId": 30145, 
+        "5_validatorIdentityCost":0, 
+        "6_tickerCost":0,
+        "7_nativeTokenWrapped": "0x6a023ccd1ff6f2045c3309768ead9e68f978f6e1",
+        "8_create3Factory": "0x9fBB3DF7C40Da2e5A0dE984fFE2CCB7C47cd0ABf",
+        "9_isTestnet": false
+    },
+    "mode":
+    {
+        "0_owner": "0xc90B92d70AF24eF1369389f1A1E3887305cD89c9", 
+        "1_treasury": "0xc90B92d70AF24eF1369389f1A1E3887305cD89c9", 
+        "2_lzEndpoint":"0x1a44076050125825900e736c501f859c50fE728c", 
+        "3_dedicatedMsgSender":"0x0000000000000000000000000000000000000000", 
+        "4_lzDeploymentChainEndpointId": 30260, 
+        "5_validatorIdentityCost":0, 
+        "6_tickerCost":0,
+        "7_nativeTokenWrapped": "0x4200000000000000000000000000000000000006",
+        "8_create3Factory": "0x0000000000000000000000000000000000000000",
+        "9_isTestnet": false
+    }
+   
+}

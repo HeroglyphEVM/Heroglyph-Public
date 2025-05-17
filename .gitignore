@@ -14,3 +14,5 @@ coverage.json
 
 # Added by cargo
 /target
+
+.VSCodeCounter
