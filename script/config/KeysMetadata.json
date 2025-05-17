@@ -1,0 +1,137 @@
+[
+    {
+        "01_name": "MOLANDAK_KEY",
+        "02_symbol": "$MOLANDAK_KEY",
+        "03_displayName": "Molandak Key #",
+        "04_image": "ipfs://QmTJnASLy5CgE6hcfHYgh6Jerf2F7wQxEWY1DV4GbuVcRC",
+        "05_maxSupply": 10000,
+        "06_paymentToken": "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9",
+        "07_cost": 500000000
+    },
+    {
+        "01_name": "lueygi_KEY",
+        "02_symbol": "$lueygi_KEY",
+        "03_displayName": "Lueygi Key #",
+        "04_image": "ipfs://QmfPLF7QkMsB545JoxRQBxMo5NEv4PMMojgfWSzVWzJrK8",
+        "05_maxSupply": 2500,
+        "06_paymentToken": "0xaf88d065e77c8cc2239327c5edb3a432268e5831",
+        "07_cost": 250000000   
+    },
+    {
+        "01_name": "PORIGON_KEY",
+        "02_symbol": "PORIGON_KEY",
+        "03_displayName": "Porigon Key #",
+        "04_image": "ipfs://QmYYCtLJpeMYt49SPLhsuNAehPdEppLcJ6CprNPvW3qxmB",
+        "05_maxSupply": 5000,
+        "06_paymentToken": "0xaf88d065e77c8cc2239327c5edb3a432268e5831",
+        "07_cost": 100000000   
+    },
+    {
+        "01_name": "OVERPOWERED_KEY",
+        "02_symbol": "$OVERPOWERED_KEY",
+        "03_displayName": "Overpowered Key #",
+        "04_image": "ipfs://QmS9m7Li5qoLaRhxGG7TLFrt72rMpgUbdyVs66uq5eiJk7",
+        "05_maxSupply": 9000,
+        "06_paymentToken": "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1",
+        "07_cost": 900000000000000000000   
+    },
+    {
+        "01_name": "ARBINAUTS_KEY",
+        "02_symbol": "ARBINAUTS_KEY",
+        "03_displayName": "Arbinauts Key #",
+        "04_image": "ipfs://QmQjUsyhdapLvrQJfB5yxm5fCdsC4c9pN3pJrXmj5a3jAh",
+        "05_maxSupply": 4500,
+        "06_paymentToken": "0x59d9356e565ab3a36dd77763fc0d87feaf85508c",
+        "07_cost": 450000000000000000000   
+    },
+    {
+        "01_name": "69_KEY",
+        "02_symbol": "69_KEY",
+        "03_displayName": "69 Key #",
+        "04_image": "ipfs://QmWNmkzzSKidrMa98NpkqQECKMxcbTrKVnPV9fYK1BEkz8",
+        "05_maxSupply": 6969,
+        "06_paymentToken": "0x0000000000000000000000000000000000000000",
+        "07_cost": 219000000000000000   
+    },
+    {
+        "01_name": "ONEPUNCH_KEY",
+        "02_symbol": "ONEPUNCH_KEY",
+        "03_displayName": "OnePunch Key #",
+        "04_image": "ipfs://QmdnzfvckGDUYvPupkqMp9V58dxZdDguo6gfERbyXFTHZR",
+        "05_maxSupply": 6969,
+        "06_paymentToken": "0x0000000000000000000000000000000000000000",
+        "07_cost": 246700000000000000   
+    },
+    {
+        "01_name": "SANICSUPERSPEED_KEY",
+        "02_symbol": "SANICSUPERSPEED_KEY",
+        "03_displayName": "SANICSUPERSPEED KEY #",
+        "04_image": "ipfs://QmewxmU2XK85znjbskA9t5frUqZtg2wf6g7h9yCnzJnZRh",
+        "05_maxSupply": 10000,
+        "06_paymentToken": "0x498Bf2B1e120FeD3ad3D42EA2165E9b73f99C1e5",
+        "07_cost": 888000000000000000000   
+    },
+    {
+        "01_name": "KABOSU_KEY",
+        "02_symbol": "$KABOSUCHAN_KEY",
+        "03_displayName": "Kabosuchan Key #",
+        "04_image": "ipfs://QmZ4y28HErLFeoNGiPYEMvVW4Kjq2oSfj5mXv5QBihQ5hs",
+        "05_maxSupply": 7500,
+        "06_paymentToken": "0x4425742f1ec8d98779690b5a3a6276db85ddc01a",
+        "07_cost": 5307692307692300000000   
+    },
+    {
+        "01_name": "SCRIBES_KEY",
+        "02_symbol": "$SCRIBES_KEY",
+        "03_displayName": "Scribes Key #",
+        "04_image": "ipfs://QmU7QpdPfLfHChUZDfKZXpqHYRhXt4FjYxDdaSQkYErPxM",
+        "05_maxSupply": 50000,
+        "06_paymentToken": "0x0000000000000000000000000000000000000000",
+        "07_cost": 3200000000000000   
+    },
+    {
+        "01_name": "HOLYTRINITY_KEY",
+        "02_symbol": "HOLY3_KEY",
+        "03_displayName": "Holy3 Key #",
+        "04_image": "ipfs://QmYjazgKmrTMpLRRT4tMWYhnazAi1pu2wcVnAddGhAkXrK",
+        "05_maxSupply": 3000,
+        "06_paymentToken": "0x178412e79c25968a32e89b11f63B33F733770c2A",
+        "07_cost": 110000000000000000   
+    },
+    {
+        "01_name": "GNOBBY_KEY",
+        "02_symbol": "GNOBBY_KEY",
+        "03_displayName": "Gnobby Key #",
+        "04_image": "ipfs://QmUrTf7BYHFLttTqYTywWam4AyQcDBUWzUNFxcm8MATxgJ",
+        "05_maxSupply": 5500,
+        "06_paymentToken": "0xa0b862F60edEf4452F25B4160F177db44DeB6Cf1",
+        "07_cost": 530000000000000000   
+    },
+    {
+        "01_name": "GARFELDO_KEY",
+        "02_symbol": "LASAGNA_KEY",
+        "03_displayName": "Garfeldo Lasagna Key #",
+        "04_image": "ipfs://QmdxB2L3vL631CDYFXyHfsd67Puebk6GTdpsTmr4bcRcYn",
+        "05_maxSupply": 0,
+        "06_paymentToken": "0x0000000000000000000000000000000000000000",
+        "07_cost": 1600000000000000  
+    },
+    {
+        "01_name": "BigBang_KEY",
+        "02_symbol": "BigBang_KEY",
+        "03_displayName": "BigBang Key #",
+        "04_image": "ipfs://QmRcgcLinZvLs4zKYUhLCgWi79y9wrwuY6fr55DNMcqsam",
+        "05_maxSupply": 4000,
+        "06_paymentToken": "0x1509706a6c66CA549ff0cB464de88231DDBe213B",
+        "07_cost": 735300000000000000000   
+    },
+    {
+        "01_name": "$BERA_KEY",
+        "02_symbol": "$BERA_KEY",
+        "03_displayName": "Bera Key #",
+        "04_image": "ipfs://QmZgX7rTfjQrbagQR4BzfoXgFgKmExiu98zVdoSqAPfGb8",
+        "05_maxSupply": 7777,
+        "06_paymentToken": "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
+        "07_cost": 250000000   
+    }
+]

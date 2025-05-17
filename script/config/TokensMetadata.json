@@ -1,0 +1,142 @@
+[
+    {
+        "01_name": "MOLANDAK",
+        "02_symbol": "$MOLANDAK",
+        "03_maxSupply": 888888007000000000000000000000000,
+        "04_key": "0x518AD4c19FeA481f743B8dE33Ff1ec1796f94023",
+        "05_preMintAmountBPS": 6000,
+        "06_fullEmissionInSeconds": 21038400,
+        "07_immunity": 31557600,
+        "08_sourceLzEndpoints":[30110,30184,30109]
+    },
+    {
+        "01_name": "lueygi",
+        "02_symbol": "$lueygi",
+        "03_maxSupply": 19830914000000000000000000000,
+        "04_key": "0xF5E0DFEf32e0e6dB9882af1750c08e9497459100",
+        "05_preMintAmountBPS": 5000,
+        "06_fullEmissionInSeconds": 15778800,
+        "07_immunity": 31557600,
+        "08_sourceLzEndpoints":  [30110,30184,30106]
+    },
+    {
+        "01_name": "PORIGON",
+        "02_symbol": "PORIGON",
+        "03_maxSupply": 1000000000000000000000000000,
+        "04_key": "0xE077E5f63C34B611a913B3FCBFADAA3b25991733",
+        "05_preMintAmountBPS": 1000,
+        "06_fullEmissionInSeconds": 23668200,
+        "07_immunity": 31557600,
+        "08_sourceLzEndpoints":  [30110,30184,30109]
+    },
+    {
+        "01_name": "OVERPOWERED",
+        "02_symbol": "$OVERPOWERED",
+        "03_maxSupply": 9000000000000000000000000000,
+        "04_key": "0x84Bc8D2a2c6281F15afC18C896766D64EF93bf02",
+        "05_preMintAmountBPS": 2500,
+        "06_fullEmissionInSeconds": 7889400,
+        "07_immunity": 7889400,
+        "08_sourceLzEndpoints":  [30110,30184,30111]
+    },
+    {
+        "01_name": "ARBINAUTS",
+        "02_symbol": "ARBINAUTS",
+        "03_maxSupply": 1969160900000000000000000000000,
+        "04_key": "0x6F2Ffdd387f01A0573Ca40628EaCF9dBe5240731",
+        "05_preMintAmountBPS": 5000,
+        "06_fullEmissionInSeconds": 13149000,
+        "07_immunity": 31557600,
+        "08_sourceLzEndpoints":  [30110,30184]
+    },
+    {
+        "01_name": "69",
+        "02_symbol": "69",
+        "03_maxSupply": 69000000000000000000,
+        "04_key": "0xbcEDcFf31C68B1fb362FaEBe36917B35643DE471",
+        "05_preMintAmountBPS": 500,
+        "06_fullEmissionInSeconds": 2629800,
+        "07_immunity": 31557600,
+        "08_sourceLzEndpoints":  [30110,30184,30181]
+    },
+    {
+        "01_name": "ONEPUNCH",
+        "02_symbol": "ONEPUNCH",
+        "03_maxSupply": 201510500000000000000000000000,
+        "04_key": "0x01d7Ef2ab555C800f0818edfc6A9744B79771DA1",
+        "05_preMintAmountBPS": 7500,
+        "06_fullEmissionInSeconds": 10519200,
+        "07_immunity": 31557600,
+        "08_sourceLzEndpoints":  [30110,30184,30183]
+    },
+    {
+        "01_name": "SANICSUPERSPEED",
+        "02_symbol": "SANICSUPERSPEED",
+        "03_maxSupply": 201806015000000000000000000000000,
+        "04_key": "0xb8F977f9cb94ca72d71eC6466785605319c83F0C",
+        "05_preMintAmountBPS": 8500,
+        "06_fullEmissionInSeconds": 2629800,
+        "07_immunity": 31557600,
+        "08_sourceLzEndpoints":  [30110,30184,30112]
+    },
+    {
+        "01_name": "KABOSU",
+        "02_symbol": "$KABOSUCHAN",
+        "03_maxSupply": 200500090020420000000000000000000,
+        "04_key": "0x32E707B2Fa13851Ae5A8D5d610B236aB3ad5687f",
+        "05_preMintAmountBPS": 9800,
+        "06_fullEmissionInSeconds": 568036800,
+        "07_immunity": 568036800,
+        "08_sourceLzEndpoints":  [30110,30184]
+    },
+    {
+        "01_name": "SCRIBES",
+        "02_symbol": "SCRIBES",
+        "03_maxSupply": 500000000000000000000000000000,
+        "04_key": "0x30dA1A8b1673Db2eEE02c72682097290b11325Fd",
+        "05_preMintAmountBPS": 3900,
+        "06_fullEmissionInSeconds": 21038400,
+        "07_immunity": 31557600,
+        "08_sourceLzEndpoints": [30110,30184,30214]
+    },
+    {
+        "01_name": "frxBULLAS",
+        "02_symbol": "$frxBULLAS",
+        "03_maxSupply": 333333333333333000000000000000000,
+        "04_key": "0x1910bFE60B28b751b19Ba1C266674eB61b7e6D2B",
+        "05_preMintAmountBPS": 3300,
+        "06_fullEmissionInSeconds": 7889400,
+        "07_immunity": 31557600,
+        "08_sourceLzEndpoints":[30110,30184,30255]
+    },
+    {
+        "01_name": "GNOBBY",
+        "02_symbol": "GNOBBY",
+        "03_maxSupply": 201704240170000030000000000000000000,
+        "04_key": "0xbc75c6a9021a97c3343DC5c52eA2E13E5F1f852c",
+        "05_preMintAmountBPS": 100,
+        "06_fullEmissionInSeconds": 23668200,
+        "07_immunity": 31557600,
+        "08_sourceLzEndpoints":[30110,30184,30145]
+    },
+    {
+        "01_name": "GARFELDO",
+        "02_symbol": "LASAGNA",
+        "03_maxSupply": 197800060190000000000000000000,
+        "04_key": "0x7d35995Ec68BcA71849068e0FC91EB75641c9aA8",
+        "05_preMintAmountBPS": 8900,
+        "06_fullEmissionInSeconds": 2629800,
+        "07_immunity": 31557600,
+        "08_sourceLzEndpoints":[30110,30184]
+    },
+    {
+        "01_name": "OogaBooga",
+        "02_symbol": "OogaBooga",
+        "03_maxSupply": 202411777777777000000000000000000,
+        "04_key": "0xC38F5a1aA46853Be3BfbFcF00562E01856867ba7",
+        "05_preMintAmountBPS": 1700,
+        "06_fullEmissionInSeconds": 10519200,
+        "07_immunity": 31557600,
+        "08_sourceLzEndpoints":[30110,30184]
+    }
+]
